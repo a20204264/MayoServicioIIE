@@ -26,6 +26,7 @@ public class ProductoController {
 	@Autowired
 	private ProductoService service;
 	
+	//LISTAR TODO
 	@RequestMapping("/listar")
 	public @ResponseBody ResponseEntity <List<Productos>> listar() {
 		
@@ -33,22 +34,29 @@ public class ProductoController {
 		return new ResponseEntity<List<Productos>>( service.listarProductos(), HttpStatus.OK);
 	}
 	
+	//OBTENER POR ID:
 	@GetMapping("/{id}")
 	public  @ResponseBody Productos ObtenerProductoId(@PathVariable Integer id) {
 		return service.obtenerProductoId(id);
 	}
 	
+	
+	//ELIMINAR
 	@DeleteMapping("/{id}")
 	public void EliminarProducto(@PathVariable Integer id) {
 		service.eliminarProducto(id);
 	}
 	
+	
+	//GUARDAR
 	@RequestMapping(path = "/guardar", method = RequestMethod.POST)
 	public ResponseEntity<Void> guardar(@RequestBody Productos productos) {
 		service.guardarProducto(productos);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
+	
+	//ELIMINAR
 	@RequestMapping(path = "/eliminar/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
 		
@@ -62,6 +70,7 @@ public class ProductoController {
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 	
+	//ACTUALIZAR
 	@RequestMapping(path = "/actualizar", method = RequestMethod.PUT)
 	public ResponseEntity<Void> actualizar(@RequestBody Productos productos) {
 		
@@ -75,7 +84,7 @@ public class ProductoController {
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 
-	
+	//LISTAR POR ID
 	@RequestMapping(path = "/listar/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Productos> obtenerId(@PathVariable Integer id) {
 		
