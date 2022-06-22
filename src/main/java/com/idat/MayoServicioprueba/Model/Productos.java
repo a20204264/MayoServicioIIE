@@ -39,14 +39,14 @@ public class Productos {
 	
 	
 	
-	//RELACION DE UNO A MUCHOS CON LA TABLA CLIENTE
+	//RELACION DE Muchos A MUCHOS CON LA TABLA CLIENTE
 	@ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE})
 	@JoinTable(
 			name="productos_clientes",
 			
 			joinColumns = @JoinColumn(
 					name="idcliente", nullable = false, unique = true,
-					foreignKey = @ForeignKey(foreignKeyDefinition = "foreing key (idcliente) references cliente(idcliente)")
+					foreignKey = @ForeignKey(foreignKeyDefinition = "foreing key (idcliente) references Clientes(idcliente)")
 			),
 			
 			inverseJoinColumns = @JoinColumn(

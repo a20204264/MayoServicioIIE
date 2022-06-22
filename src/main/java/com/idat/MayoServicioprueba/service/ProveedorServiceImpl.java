@@ -1,5 +1,6 @@
 package com.idat.MayoServicioprueba.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.idat.MayoServicioprueba.Model.Proveedor;
 import com.idat.MayoServicioprueba.Repository.ItemRepository;
 import com.idat.MayoServicioprueba.Repository.ProveedorRepository;
+import com.idat.MayoServicioprueba.dto.ClienteDTOResponse;
+import com.idat.MayoServicioprueba.dto.ProveedorDTORequest;
+import com.idat.MayoServicioprueba.dto.ProveedorDTOResponse;
 
 @Service
 public class ProveedorServiceImpl implements ProveedorService {
@@ -17,15 +21,23 @@ public class ProveedorServiceImpl implements ProveedorService {
 	
 	
 	@Override
-	public void guardarProveedor(Proveedor proveedor) {
-		// TODO Auto-generated method stub
-		repository.save(proveedor);
+	public void guardarProveedor(ProveedorDTORequest proveedor) {
+
+		Proveedor p = new Proveedor();
+		
+		p.setProveedor(proveedor.getProveedor());
+		p.setDireccion(proveedor.getDireccion());
+		
+		repository.save(p);
 	}
 
 	@Override
-	public void actualizarProveedor(Proveedor proveedor) {
-		// TODO Auto-generated method stub
-		repository.saveAndFlush(proveedor);
+	public void actualizarProveedor(ProveedorDTORequest proveedor) {
+		Proveedor p = new Proveedor();
+		
+		p.setProveedor(proveedor.getProveedor());
+		p.setDireccion(proveedor.getDireccion());
+		repository.saveAndFlush(p);
 		
 	}
 
@@ -37,15 +49,40 @@ public class ProveedorServiceImpl implements ProveedorService {
 	}
 
 	@Override
-	public List<Proveedor> listarProveedor() {
-		// TODO Auto-generated method stub
-		return repository.findAll();
+	public List<ProveedorDTOResponse> listarProveedor() {
+
+		List<ProveedorDTOResponse> listar = new ArrayList<>();
+		ProveedorDTOResponse dto = null;
+		List<Proveedor> p = repository.findAll();
+		
+		for(Proveedor proveedor: p) {
+			dto = new ProveedorDTOResponse();
+			
+			dto.setIdproveedor(proveedor.getIdproveedor());
+			dto.setProveedor(proveedor.getProveedor());
+			dto.setDireccion(proveedor.getDireccion());
+			
+			listar.add(dto);
+			
+		}
+		
+		return listar;
 	}
 
 	@Override
-	public Proveedor obtenerProveedorId(Integer id) {
-		// TODO Auto-generated method stub
-		return repository.findById(id).orElse(null);
+	public ProveedorDTOResponse obtenerProveedorId(Integer id) {
+
+		Proveedor proveedor = repository.findById(id).orElse(null);
+		ProveedorDTOResponse dto = new ProveedorDTOResponse();
+		
+		dto = new ProveedorDTOResponse();
+		
+		dto.setIdproveedor(proveedor.getIdproveedor());
+		dto.setProveedor(proveedor.getProveedor());
+		dto.setDireccion(proveedor.getDireccion());
+		
+		
+		return dto;
 	}
 
 }

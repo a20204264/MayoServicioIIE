@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.idat.MayoServicioprueba.Model.Proveedor;
+import com.idat.MayoServicioprueba.dto.ProveedorDTORequest;
+import com.idat.MayoServicioprueba.dto.ProveedorDTOResponse;
 import com.idat.MayoServicioprueba.service.ProveedorService;
 
 
@@ -28,15 +30,15 @@ public class ProveedorController {
 	
 	//LISTAR TODO
 		@RequestMapping("/listar")
-		public @ResponseBody ResponseEntity <List<Proveedor>> listar() {
+		public @ResponseBody ResponseEntity <List<ProveedorDTOResponse>> listar() {
 			
 			
-			return new ResponseEntity<List<Proveedor>>( service.listarProveedor(), HttpStatus.OK);
+			return new ResponseEntity<List<ProveedorDTOResponse>>( service.listarProveedor(), HttpStatus.OK);
 		}
 		
 		//OBTENER POR ID:
 		@GetMapping("/{id}")
-		public  @ResponseBody Proveedor ObtenerProveedorId(@PathVariable Integer id) {
+		public  @ResponseBody ProveedorDTOResponse ObtenerProveedorId(@PathVariable Integer id) {
 			return service.obtenerProveedorId(id);
 		}
 		
@@ -50,7 +52,7 @@ public class ProveedorController {
 		
 		//GUARDAR
 		@RequestMapping(path = "/guardar", method = RequestMethod.POST)
-		public ResponseEntity<Void> guardar(@RequestBody Proveedor proveedor) {
+		public ResponseEntity<Void> guardar(@RequestBody ProveedorDTORequest proveedor) {
 			service.guardarProveedor(proveedor);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
@@ -60,7 +62,7 @@ public class ProveedorController {
 		@RequestMapping(path = "/eliminar/{id}", method = RequestMethod.DELETE)
 		public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
 			
-			Proveedor proveedor=service.obtenerProveedorId(id);
+			ProveedorDTOResponse proveedor=service.obtenerProveedorId(id);
 			
 			if(proveedor != null) {
 				service.eliminarProveedor(id);
@@ -72,9 +74,9 @@ public class ProveedorController {
 		
 		//ACTUALIZAR
 		@RequestMapping(path = "/actualizar", method = RequestMethod.PUT)
-		public ResponseEntity<Void> actualizar(@RequestBody Proveedor proveedor) {
+		public ResponseEntity<Void> actualizar(@RequestBody ProveedorDTORequest proveedor) {
 			
-			Proveedor proveedores=service.obtenerProveedorId(proveedor.getIdproveedor());
+			ProveedorDTOResponse proveedores=service.obtenerProveedorId(proveedor.getIdproveedor());
 			
 			if(proveedor != null) {
 				service.actualizarProveedor(proveedor);
@@ -86,16 +88,16 @@ public class ProveedorController {
 
 		//LISTAR POR ID
 		@RequestMapping(path = "/listar/{id}", method = RequestMethod.GET)
-		public ResponseEntity<Proveedor> obtenerId(@PathVariable Integer id) {
+		public ResponseEntity<ProveedorDTOResponse> obtenerId(@PathVariable Integer id) {
 			
-			Proveedor proveedor=service.obtenerProveedorId(id);
+			ProveedorDTOResponse proveedor=service.obtenerProveedorId(id);
 			
 			if(proveedor != null) {
 				
 				
-				return new ResponseEntity<Proveedor>(service.obtenerProveedorId(id), HttpStatus.OK);
+				return new ResponseEntity<ProveedorDTOResponse>(service.obtenerProveedorId(id), HttpStatus.OK);
 			}
-			return new ResponseEntity<Proveedor>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ProveedorDTOResponse>(HttpStatus.NOT_FOUND);
 		}
 
 

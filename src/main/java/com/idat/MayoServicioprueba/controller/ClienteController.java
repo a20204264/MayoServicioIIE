@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.idat.MayoServicioprueba.Model.Cliente;
+import com.idat.MayoServicioprueba.dto.ClienteDTORequest;
+import com.idat.MayoServicioprueba.dto.ClienteDTOResponse;
 import com.idat.MayoServicioprueba.service.ClienteService;
 
 @Controller
@@ -25,22 +27,22 @@ public class ClienteController {
 	
 	//LISTAR TODO
 	@RequestMapping("/listar")
-	public @ResponseBody ResponseEntity<List<Cliente>> listar(){
+	public @ResponseBody ResponseEntity<List<ClienteDTOResponse>> listar(){
 		
-		return new ResponseEntity<List<Cliente>>(service.listarClientes(),HttpStatus.OK);
+		return new ResponseEntity<List<ClienteDTOResponse>>(service.listarClientes(),HttpStatus.OK);
 	}
 	
 	
 	//OBTENER POR ID:
 	@GetMapping("/{id}")
-	public @ResponseBody Cliente ObtenerItemId(@PathVariable Integer id) {
+	public @ResponseBody ClienteDTOResponse ObtenerItemId(@PathVariable Integer id) {
 		return service.obtenerClienteId(id);
 	}
 	
 	//ELIMINAR:
 	@RequestMapping(path="/eliminar/{id}",  method = RequestMethod.DELETE)
 	public ResponseEntity<Void> eliminar(@PathVariable Integer id){
-		Cliente cliente = service.obtenerClienteId(id);
+		ClienteDTOResponse cliente = service.obtenerClienteId(id);
 		if(cliente != null) {
 			service.eliminarCliente(id);
 			
@@ -51,18 +53,19 @@ public class ClienteController {
 	
 	//GUARDAR:
 	@RequestMapping(path = "/guardar", method = RequestMethod.POST)
-	public ResponseEntity<Void> guardar(@RequestBody Cliente cliente){
+	public ResponseEntity<Void> guardar(@RequestBody ClienteDTORequest cliente){
 		service.guardarCliente(cliente);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	//ACTUALIZAR:
 	@RequestMapping(path = "/actualizar", method = RequestMethod.PUT)
-	public ResponseEntity<Void> actualizar(@RequestBody Cliente cliente){
+	public ResponseEntity<Void> actualizar(@RequestBody ClienteDTORequest cliente){
 		
-		Cliente clientes= service.obtenerClienteId(cliente.getIdcliente());
+		ClienteDTOResponse clientes= service.obtenerClienteId(cliente.getIdcliente());
+		
 		if(clientes !=null) {
-			service.actualizarCliente(clientes);
+			service.actualizarCliente(cliente);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -71,14 +74,14 @@ public class ClienteController {
 	//LISTAR POR ID:
 	
 	@RequestMapping(path = "/listar/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Cliente> obtenerId(@PathVariable Integer id){
+	public ResponseEntity<ClienteDTOResponse> obtenerId(@PathVariable Integer id){
 		
-		Cliente clientes=service.obtenerClienteId(id);
+		ClienteDTOResponse clientes=service.obtenerClienteId(id);
 		
 		if(clientes!= null) {
-			return new ResponseEntity<Cliente>(service.obtenerClienteId(id), HttpStatus.OK);
+			return new ResponseEntity<ClienteDTOResponse>(service.obtenerClienteId(id), HttpStatus.OK);
 		}
-		return new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ClienteDTOResponse>(HttpStatus.NOT_FOUND);
 	}
 
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.idat.MayoServicioprueba.Model.Item;
+import com.idat.MayoServicioprueba.dto.ItemDTORequest;
+import com.idat.MayoServicioprueba.dto.ItemDTOResponse;
 import com.idat.MayoServicioprueba.service.ItemService;
 
 @Controller
@@ -26,15 +28,15 @@ public class ItemController {
 	
 	//LISTAR TODO
 		@RequestMapping("/listar")
-		public @ResponseBody ResponseEntity <List<Item>> listar() {
+		public @ResponseBody ResponseEntity <List<ItemDTOResponse>> listar() {
 			
 			
-			return new ResponseEntity<List<Item>>( service.listarItems(), HttpStatus.OK);
+			return new ResponseEntity<List<ItemDTOResponse>>( service.listarItems(), HttpStatus.OK);
 		}
 		
 		//OBTENER POR ID:
 		@GetMapping("/{id}")
-		public  @ResponseBody Item ObtenerItemId(@PathVariable Integer id) {
+		public  @ResponseBody ItemDTOResponse ObtenerItemId(@PathVariable Integer id) {
 			return service.obtenerItemId(id);
 		}
 		
@@ -48,7 +50,7 @@ public class ItemController {
 		
 		//GUARDAR
 		@RequestMapping(path = "/guardar", method = RequestMethod.POST)
-		public ResponseEntity<Void> guardar(@RequestBody Item item) {
+		public ResponseEntity<Void> guardar(@RequestBody ItemDTORequest item) {
 			service.guardarItem(item);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
@@ -58,7 +60,7 @@ public class ItemController {
 		@RequestMapping(path = "/eliminar/{id}", method = RequestMethod.DELETE)
 		public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
 			
-			Item item=service.obtenerItemId(id);
+			ItemDTOResponse item=service.obtenerItemId(id);
 			
 			if(item != null) {
 				service.eliminarItem(id);
@@ -70,12 +72,12 @@ public class ItemController {
 		
 		//ACTUALIZAR
 		@RequestMapping(path = "/actualizar", method = RequestMethod.PUT)
-		public ResponseEntity<Void> actualizar(@RequestBody Item item) {
+		public ResponseEntity<Void> actualizar(@RequestBody ItemDTORequest item) {
 			
-			Item items=service.obtenerItemId(item.getIditem());
+			ItemDTOResponse items=service.obtenerItemId(item.getIditem());
 			
 			if(items != null) {
-				service.actualizarItem(items);
+				service.actualizarItem(item);
 				
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			}
@@ -84,16 +86,16 @@ public class ItemController {
 
 		//LISTAR POR ID
 		@RequestMapping(path = "/listar/{id}", method = RequestMethod.GET)
-		public ResponseEntity<Item> obtenerId(@PathVariable Integer id) {
+		public ResponseEntity<ItemDTOResponse> obtenerId(@PathVariable Integer id) {
 			
-			Item items=service.obtenerItemId(id);
+			ItemDTOResponse items=service.obtenerItemId(id);
 			
 			if(items != null) {
 				
 				
-				return new ResponseEntity<Item>(service.obtenerItemId(id), HttpStatus.OK);
+				return new ResponseEntity<ItemDTOResponse>(service.obtenerItemId(id), HttpStatus.OK);
 			}
-			return new ResponseEntity<Item>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ItemDTOResponse>(HttpStatus.NOT_FOUND);
 		}
 
 	
